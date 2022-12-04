@@ -83,10 +83,23 @@ const deletepaymentrecord = async (req, res) => {
         return res.status(200).send(paymentrecord);
     })
 }
+const getpaymentrecordsuser = async (req, res) => {
+    const { id } = req.params;
+    Paymentrecord.find({ user: id }).populate({ path: 'user', select: 'name' }).exec((error, paymentrecord) => {
+        if (error) {
+            return res.status(400).send({ message: "No se pudo realizar la busqueda" })
+        }
+        if (paymentrecord.length === 0) {
+            return res.status(404).send({ message: "No se encontraron registros de pago" })
+        }
+        return res.status(200).send(paymentrecord)
+    })
+}
 module.exports = {
     createpaymentrecord,
     getpaymentrecord,
     getpaymentrecords,
-    deletepaymentrecord
+    deletepaymentrecord,
+    getpaymentrecordsuser
 }
 

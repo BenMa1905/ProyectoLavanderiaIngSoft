@@ -99,11 +99,25 @@ const deleteUser = async (req, res) => {
     })
 }
 
+const updateImgUser = async (req, res) => {
+    const { id } = req.params;
+    User.findOneAndUpdate(id, { profileImg: req.file.path }, (err, user) => {
+        if (err) {
+            return res.status(400).send({ message: 'Error al actualizar la imagen de perfil' });
+        }
+        if (!user) {
+            return res.status(404).send({ message: 'No se encontró el usuario' });
+        }
+        return res.status(200).send(user);
+    })
+}
+
 module.exports = {
     createUser,
     getUsers,
     getUser,
     updateUser,
     deleteUser,
-    login
+    login,
+    updateImgUser
 }

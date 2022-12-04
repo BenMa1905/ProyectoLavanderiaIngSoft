@@ -16,7 +16,7 @@ const userSchema = new Schema({
         unique: true,
     },
     birthdate:{
-        type: String,
+        type: Date,
         required: true,
     },
     address: {
@@ -44,11 +44,15 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'membership',
     },
-    
-    /*imgUrl:{
-        type:String,
-        required:false,
-    }*/
+    profileImgUser: {
+        type: String,
+        default: 'https://www.softzone.es/app/uploads-softzone.es/2018/04/guest.png',
+        required: false
+    },
+    createdDate: {
+        type: Date,
+        default: Date.now,
+    },
 })
 
 /*
