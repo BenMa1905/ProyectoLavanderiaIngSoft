@@ -1,24 +1,28 @@
-import { useState, useEffect, use } from 'react'
+import { useState, useEffect } from 'react'
 import { useToast, IconButton, Stack, Button, Container, Input, Text, Heading, Table, Thead, Tbody, FormControl, FormLabel, Tfoot, Tr, Th, Td, Box, Accordion, AccordionItem, AccordionButton, AccordionPanel, AccordionIcon } from '@chakra-ui/react'
 import axios from 'axios'
 import { AddIcon, EditIcon, InfoIcon, DeleteIcon } from '@chakra-ui/icons'
-import { useRouter } from 'next/router'
+import Router, { useRouter } from 'next/router'
 import SideNavigationBar from '../components/SideNavigationBar'
+import '../styles/globals.css'
+
+
 
 const Supplies = () => {
 
     const [values, setValues] = useState({
-        cashBalance: '',
-        debitBalance: '',
-        totalDebt: ''
+        name: '',
+        price: '',
+        quantity: '',
+        description: ''
     })
 
     const toast = useToast()
 
+    const router = useRouter()
 
     const [suministro, setSuministro] = useState([])
 
-    const router = useRouter()
 
     const getSupply = async () => {
         const response = await axios.get(`${process.env.API_URL}/supplys`)
@@ -37,7 +41,7 @@ const Supplies = () => {
                     <Td>{supply.price}</Td>
                     <Td>{supply.quantity}</Td>
                     <Td>{supply.description}</Td>
-                    <Td display={'flex'} mx="10" justifyContent="space-evenly"><IconButton aria-label='Search database' icon={<EditIcon />} /><IconButton aria-label='Search database' icon={<DeleteIcon />} /></Td>
+                    <Td display={'flex'} mx="10" justifyContent="space-evenly"><IconButton aria-label='Search database' onClick={() => router.push(`/supply/${supply._id}`)} icon={<EditIcon />} /><IconButton aria-label='Search database' icon={<DeleteIcon />} value={supply._id} onClick={onDelete}/></Td>
                 </Tr>
             )
         })
@@ -48,6 +52,32 @@ const Supplies = () => {
             [e.target.name]: e.target.value
         })
         console.log(e.target.name, e.target.value)
+    }
+
+    const onDelete = async (e) => {
+        console.log(e.target.value)
+        alert(e.target.value)
+        const response = await axios.delete(`${process.env.API_URL}/supply/delete/${e.target.value}`)
+        if(response.status == 200){
+            toast({
+                title: 'Suministro eliminado.',
+                description: "El suministro se eliminó con éxito.",
+                status: 'success',
+                duration: 4000,
+                isClosable: true,
+            })
+            setTimeout(() => {
+                window.location.reload()
+            }, 1500)
+        }else{
+            toast({
+                title: 'Error al eliminar suministro.',
+                description: "El suministro no se pudo eliminar.",
+                status: 'error',
+                duration: 4000,
+                isClosable: true,
+            })
+        }
     }
 
     const onSubmit = async (e) => {

@@ -1,12 +1,12 @@
 const Ledger = require('../models/ledger');
 
 const createLedger = (req, res) => {
-	const { balance, totalDebt } = req.body
+	const { cashBalance, debitBalance, totalDebt } = req.body
 	const newLedger = new Ledger({
-		balance,
+		cashBalance,
+		debitBalance,
 		totalDebt
 	})
-    console.log(balance)
 	newLedger.save((error, ledger) =>{
 		if(error){
 			return res.status(400).send({ message: "No se ha podido crear el libro contable"})
@@ -61,6 +61,7 @@ const getLedger = (req, res) => {
 		return res.status(200).send(ledger)
 	})
 }
+
 module.exports = {
 	createLedger,
 	getLedgers,
