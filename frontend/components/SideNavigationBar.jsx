@@ -4,8 +4,7 @@ import { useRouter } from 'next/router'
 import {
     Input, Stack, Button, DrawerOverlay, DrawerContent, DrawerCloseButton, Drawer,
     DrawerHeader, DrawerBody, DrawerFooter, Box, Flex, Text, IconButton, Icon, Divider,
-    useTheme, Avatar
-} from '@chakra-ui/react'
+    useTheme, Avatar } from '@chakra-ui/react'
 
 import { HamburgerIcon } from '@chakra-ui/icons'
 import { WashingMachineIcon, HomeIcon, ScheduleIcon, HistoryIcon, PaymentIcon, InventoryIcon } from '../public/SVGsResources'
@@ -26,7 +25,7 @@ const SideNavigationBar = () => {
     const [ledgerButtCol, setLedgerButtCol] = useState(generalColor)
     const [inventoryButtCol, setInventoryButtCol] = useState(generalColor)
 
-    const userName = 'Jaime Huenchulao o.'
+    const userName = 'NADIE'
 
 
     const [avatarIsWrapped, setAvatarIsWrapped] = useState(true);
@@ -51,7 +50,7 @@ const SideNavigationBar = () => {
 
                 </IconButton>
 
-                <Text fontSize="6vh" fontWeight="thin" color="brand.500" justifySelf="center" alignSelf="center" ml='14vw'
+                <Text fontSize="6vh" fontWeight="thin" color="brand.500" justifySelf="center" alignSelf="center" ml='5vw'
                     display="flex" justifyContent="space-between" alignItems="center" >
 
                     <WashingMachineIcon color={generalColor} v='7vh' w='7vh' />

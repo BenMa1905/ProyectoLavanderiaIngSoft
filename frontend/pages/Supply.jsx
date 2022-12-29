@@ -4,8 +4,6 @@ import axios from 'axios'
 import { AddIcon, EditIcon, InfoIcon, DeleteIcon } from '@chakra-ui/icons'
 import Router, { useRouter } from 'next/router'
 import SideNavigationBar from '../components/SideNavigationBar'
-import '../styles/globals.css'
-
 
 
 const Supplies = () => {
@@ -41,7 +39,7 @@ const Supplies = () => {
                     <Td>{supply.price}</Td>
                     <Td>{supply.quantity}</Td>
                     <Td>{supply.description}</Td>
-                    <Td display={'flex'} mx="10" justifyContent="space-evenly"><IconButton aria-label='Search database' onClick={() => router.push(`/supply/${supply._id}`)} icon={<EditIcon />} /><IconButton aria-label='Search database' icon={<DeleteIcon />} value={supply._id} onClick={onDelete}/></Td>
+                    <Td display={'flex'} mx="10" justifyContent="space-evenly"><IconButton aria-label='Search database' onClick={() => router.push(`/supply/${supply._id}`)} icon={<EditIcon />} /><IconButton aria-label='Search database' icon={<DeleteIcon />} onClick={() => onDelete(supply._id)}/></Td>
                 </Tr>
             )
         })
@@ -55,9 +53,8 @@ const Supplies = () => {
     }
 
     const onDelete = async (e) => {
-        console.log(e.target.value)
-        alert(e.target.value)
-        const response = await axios.delete(`${process.env.API_URL}/supply/delete/${e.target.value}`)
+        const response = await axios.delete(`${process.env.API_URL}/supply/delete/${e}`)
+        console.log(response.status)
         if(response.status == 200){
             toast({
                 title: 'Suministro eliminado.',
@@ -66,9 +63,9 @@ const Supplies = () => {
                 duration: 4000,
                 isClosable: true,
             })
-            setTimeout(() => {
+            // setTimeout(() => {
                 window.location.reload()
-            }, 1500)
+            // }, 1500)
         }else{
             toast({
                 title: 'Error al eliminar suministro.',
@@ -93,9 +90,9 @@ const Supplies = () => {
                     duration: 4000,
                     isClosable: true,
                 })
-                setTimeout(() => {
+                // setTimeout(() => {
                     window.location.reload()
-                }, 1500)
+                // }, 1500)
             } else {
                 toast({
                     title: 'Error al registrar suministro.',

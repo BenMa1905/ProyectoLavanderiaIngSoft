@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import axios from 'axios'
-import { useToast, FormControl, FormErrorMessage, FormHelperText, IconButton, Stack, Button, Container, Input, Text, Heading, Table, Thead, Tbody, Tfoot, Tr, Th, Td, Box, getDividerStyles, HStack, FormLabel, Textarea } from '@chakra-ui/react'
+import { useToast, FormControl, FormErrorMessage, FormHelperText, IconButton, Stack, Button, Container, Input, Text, Heading, Table, Thead, Tbody, Tfoot, Tr, Th, Td, Box, getDividerStyles, HStack, FormLabel, Textarea, Flex } from '@chakra-ui/react'
 import SideNavigationBar from '../../components/SideNavigationBar'
 import { getSupply } from '../../data/supply'
 
 export async function getServerSideProps(context) {
     try {
         const response = await getSupply(context.query.supply)
-        console.log(response)
         return {
             props: {
                 data: response.data
@@ -31,7 +30,7 @@ const supply = ({ data }) => {
 
     const [suministro] = useState(data)
 
-    const [contador, setContador] = useState(1)    
+    const [contador, setContador] = useState(1)
     const [input, setInput] = useState('')
     const isError = input === ''
     const [values, setValues] = useState({
@@ -40,7 +39,7 @@ const supply = ({ data }) => {
         quantity: '',
         description: ''
     })
-    
+
     const toast = useToast()
 
     const onEdit = async (e) => {
@@ -57,7 +56,6 @@ const supply = ({ data }) => {
                 })
                 router.push('/Supply')
             } else {
-                console.log(response.status)
                 toast({
                     title: 'Error al editar suministro.',
                     description: "El suministro no se pudo editar.",
@@ -85,55 +83,40 @@ const supply = ({ data }) => {
             ...values,
             [e.target.name]: e.target.value
         })
-        console.log(e.target.name, e.target.value)
     }
 
-    
+
     return (
 
         <>
             <SideNavigationBar></SideNavigationBar>
-            <Container centerContent bg='whiteAlpha.800' display={"flex"} flexDirection="column" minW='30vw'>
-                <Heading>Editar suministro</Heading>
+            <Container bg='whiteAlpha.800' borderRadius={"2rem"} padding={'10'} minW='30vw' margin=" 7.5rem auto">
+                <Heading textAlign={'center'} fontFamily={'inherit'} fontWeight={'light'} >Editar suministro</Heading>
                 <HStack>
                 </HStack>
-                <FormLabel>Nombre</FormLabel>
-                <FormControl bg={'white'}>
+                <FormLabel fontFamily={'inherit'} fontWeight={'light'}>Nombre</FormLabel>
+                <FormControl borderRadius={"1rem"} bg={'white'}>
                     <Input type="text" size={'lg'} placeholder={suministro.name} name="name" onChange={onChange} />
-                    {!isError ? (
-                        <FormHelperText>
-                            Ingrese el nombre del suministro.
-                        </FormHelperText>
-                    ) : (
-                        <FormErrorMessage>Nombre requerido.</FormErrorMessage>
-                    )}
+
                 </FormControl>
-                <FormLabel>Precio</FormLabel>
-                <FormControl bg={'white'}>
-                    <Input type="text" placeholder={suministro.price} name="price" onChange={onChange}/>
-                    {!isError ? (
-                        <FormHelperText>
-                            Ingrese el precio del suministro.
-                        </FormHelperText>
-                    ) : (
-                        <FormErrorMessage>Precio requerido.</FormErrorMessage>
-                    )}
+                <FormLabel fontFamily={'inherit'} fontWeight={'light'}>Precio</FormLabel>
+                <FormControl borderRadius={"1rem"} bg={'white'}>
+                    <Input type="text" placeholder={suministro.price} name="price" onChange={onChange} />
                 </FormControl>
-                <FormLabel>Cantidad</FormLabel>
-                <FormControl bg={'white'}>
-                    <Input type="text" placeholder={suministro.quantity} name="quantity" onChange={onChange}/>
-                    {!isError ? (
-                        <FormHelperText>
-                            Ingrese la cantidad del suministro.
-                        </FormHelperText>
-                    ) : (
-                        <FormErrorMessage>Cantidad requerida.</FormErrorMessage>
-                    )}
+                <FormLabel fontFamily={'inherit'} fontWeight={'light'}>Cantidad</FormLabel>
+                <FormControl borderRadius={"1rem"} bg={'white'}>
+                    <Input type="text" placeholder={suministro.quantity} name="quantity" onChange={onChange} />
                 </FormControl>
-                <FormLabel>Descripción</FormLabel>
-                <Textarea placeholder={suministro.description} name="description" onChange={onChange}/>
-                <Button colorScheme={"teal"} size={"md"} type={"submit"} my={"5"} onClick={onEdit}>Guardar cambios</Button>
+                <FormLabel fontFamily={'inherit'} fontWeight={'light'}>Descripción</FormLabel>
+                <Textarea placeholder={suministro.description} name="description" onChange={onChange} />
+                <Container>
+                    <Flex justifyContent={"space-around"}>
+                        <Button colorScheme={"teal"} size={"md"} type={"submit"} my={"5"} onClick={onEdit}>Guardar cambios</Button>
+                        <Button colorScheme={"red"} size={"md"} type={"submit"} my={"5"} onClick={onEdit}>Volver</Button>
+                    </Flex>
+                </Container>
             </Container>
+
         </>
     )
 }

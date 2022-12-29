@@ -18,7 +18,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider >
       <ThemeProvider theme={theme}>
-        <Box 
+        <Box
           w="full" h='full'
           css={{
             backgroundImage: "url(/background.jpg)",
